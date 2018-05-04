@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Google Inc. All Rights Reserved.
+ * Copyright 2017 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,10 +40,12 @@ import javax.microedition.khronos.egl.EGLConfig;
 
 /**
  * A Google VR sample application.
- * </p><p>
- * The TreasureHunt scene consists of a planar ground grid and a floating
+ *
+ * <p>The TreasureHunt scene consists of a planar ground grid and a floating
  * "treasure" cube. When the user looks at the cube, the cube will turn gold.
- * While gold, the user can activate the Cardboard trigger, which will in turn
+ * While gold, the user can activate the Cardboard trigger, either directly
+ * using the touch trigger on their Cardboard viewer, or using the Daydream
+ * controller-based trigger emulation. Activating the trigger will in turn
  * randomly reposition the cube.
  */
 public class TreasureHuntActivity extends GvrActivity implements GvrView.StereoRenderer {
@@ -204,6 +206,10 @@ public class TreasureHuntActivity extends GvrActivity implements GvrView.StereoR
 
     gvrView.setRenderer(this);
     gvrView.setTransitionViewEnabled(true);
+
+    // Enable Cardboard-trigger feedback with Daydream headsets. This is a simple way of supporting
+    // Daydream controller input for basic interactions using the existing Cardboard trigger API.
+    gvrView.enableCardboardTriggerEmulation();
 
     if (gvrView.setAsyncReprojectionEnabled(true)) {
       // Async reprojection decouples the app framerate from the display framerate,
@@ -396,7 +402,7 @@ public class TreasureHuntActivity extends GvrActivity implements GvrView.StereoR
       reader.close();
       return sb.toString();
     } catch (IOException e) {
-      e.printStackTrace();
+      Log.e(TAG, "Failed to load text file: " + e);
     }
     return null;
   }
@@ -497,6 +503,12 @@ public class TreasureHuntActivity extends GvrActivity implements GvrView.StereoR
     GLES20.glEnableVertexAttribArray(cubeColorParam);
 
     GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
+
+    // Disable vertex arrays
+    GLES20.glDisableVertexAttribArray(cubePositionParam);
+    GLES20.glDisableVertexAttribArray(cubeNormalParam);
+    GLES20.glDisableVertexAttribArray(cubeColorParam);
+    
     checkGLError("Drawing cube");
   }
 
@@ -525,6 +537,10 @@ public class TreasureHuntActivity extends GvrActivity implements GvrView.StereoR
     GLES20.glEnableVertexAttribArray(floorColorParam);
 
     GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 24);
+
+    GLES20.glDisableVertexAttribArray(floorPositionParam);
+    GLES20.glDisableVertexAttribArray(floorNormalParam);
+    GLES20.glDisableVertexAttribArray(floorColorParam);
 
     checkGLError("drawing floor");
   }

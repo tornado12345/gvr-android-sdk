@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Google Inc. All rights reserved.
+ * Copyright 2017 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 26
 
     defaultConfig {
         minSdkVersion 19
@@ -31,13 +30,10 @@ android {
             minifyEnabled true
             proguardFiles.add(file('../../proguard-gvr.txt'))
         }
+
     }
 }
 
 dependencies {
-    compile project(':libraries-common')
-    compile project(':libraries-commonwidget')
-    compile project(':libraries-panowidget')
-
-    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
+    compile 'com.google.vr:sdk-panowidget:1.140.0'
 }
