@@ -6,6 +6,7 @@
 .externalNativeBuild/
 .gradle/
 build/
+libraries/headers
 libraries/jni
 
 # User configuration.

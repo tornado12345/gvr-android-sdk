@@ -3,9 +3,7 @@
 
 // Explicitly load all the SDK samples using their full path.
 include ':samples:sdk-controllerclient'
-include ':samples:sdk-simplepanowidget'
-include ':samples:sdk-simplevideowidget'
-include ':samples:sdk-treasurehunt'
+include ':samples:sdk-hellovr'
 include ':samples:sdk-video360'
 include ':samples:sdk-videoplayer'
 
@@ -14,8 +12,8 @@ include ':samples:sdk-videoplayer'
 // files by running "./gradlew :extractNdk" which will create a libraries/jni
 // folder. Then uncomment these lines to enable the NDK samples and synchronize
 // Android Studio.
-//include ':samples:ndk-controllerpaint'
-//include ':samples:ndk-treasurehunt'
+//include ':samples:ndk-hellovr'
+//include ':samples:ndk-hellovrbeta'
 
 // Android Studio doesn't preserve nested modules in its Project View. To create
 // a cleaner layout, we reorganize and rename the modules loaded above.
